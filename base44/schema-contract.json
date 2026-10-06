@@ -1,0 +1,18 @@
+{
+  "appId": "6a94a7bfcbb4366d37894ffd",
+  "product": "Living Truth",
+  "policy": "private operator engine",
+  "publicRead": [],
+  "adminOnlyRead": [
+    "Claim",
+    "Evidence",
+    "AttackCard",
+    "ContinuityRecord",
+    "WorldRadarFinding",
+    "ReconciliationReceipt",
+    "ContinuityCookie",
+    "ReconciliationRun",
+    "ReconciliationRule"
+  ],
+  "invariant": "No evidence, receipt, continuity, attack, or reconciliation entity may be public-readable in the canonical engine."
+}
