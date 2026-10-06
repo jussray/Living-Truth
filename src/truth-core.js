@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { NON_AUTHORIZING_RECEIPT, STRICT_SCOPES, TRUTH_STATES } from "./contracts.js";
+import { NON_AUTHORIZING_RECEIPT, STRICT_SCOPES, TRUTH_SCOPES, TRUTH_STATES } from "./contracts.js";
 
 export function fingerprint(value) {
   return createHash("sha256").update(JSON.stringify(value)).digest("hex");
@@ -32,6 +32,9 @@ export function reconcileClaim(claim, allEvidence, options = {}) {
   const id = required(claim?.id, "claim.id");
   const statement = required(claim?.statement, "claim.statement");
   const scope = required(claim?.scope, "claim.scope");
+  if (!TRUTH_SCOPES.has(scope)) {
+    throw new TypeError(`Unsupported claim.scope: ${scope}`);
+  }
   const evidenceDomain = required(claim?.evidenceDomain, "claim.evidenceDomain");
   const expectedVersion = required(claim?.expectedVersion, "claim.expectedVersion");
   const reconciliationKey = required(claim?.reconciliationKey, "claim.reconciliationKey");

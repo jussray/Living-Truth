@@ -14,5 +14,11 @@
     "ReconciliationRun",
     "ReconciliationRule"
   ],
-  "invariant": "No evidence, receipt, continuity, attack, or reconciliation entity may be public-readable in the canonical engine."
+  "invariant": "No evidence, receipt, continuity, attack, or reconciliation entity may be public-readable in the canonical engine. GitHub ingestion must remain observational and must not gain repository mutation authority.",
+  "githubIngestion": {
+    "policy": "observation-only",
+    "requiredPermission": "read-only or equivalent",
+    "broadWriteCapableConnectorAllowed": false,
+    "note": "Do not connect a GitHub credential that can mutate repositories merely to ingest evidence."
+  }
 }

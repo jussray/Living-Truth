@@ -8,3 +8,10 @@ test("Living Truth has no public-readable truth-plane entities", () => {
   assert.ok(contract.adminOnlyRead.includes("ReconciliationReceipt"));
   assert.ok(contract.adminOnlyRead.includes("ContinuityCookie"));
 });
+
+
+test("GitHub ingestion cannot gain repository mutation authority", () => {
+  assert.equal(contract.githubIngestion.policy, "observation-only");
+  assert.equal(contract.githubIngestion.broadWriteCapableConnectorAllowed, false);
+  assert.match(contract.githubIngestion.requiredPermission, /read-only/);
+});

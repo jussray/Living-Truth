@@ -119,3 +119,15 @@ test("equally current authoritative in-scope witnesses that disagree are blocked
   assert.equal(out.receipt.result, "conflicting_evidence");
   assert.equal(out.receipt.evidenceRefs.length, 2);
 });
+
+
+test("rejects unknown scopes instead of silently treating a typo as non-strict", () => {
+  assert.throws(
+    () => reconcileClaim(
+      { ...claim, scope: "runtim", reconciliationKey: "typo:scope" },
+      [evidence],
+      { observedAt: now }
+    ),
+    /Unsupported claim\.scope/
+  );
+});
