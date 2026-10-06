@@ -70,24 +70,44 @@ export function reconcileClaim(claim, allEvidence, options = {}) {
     });
   }
 
-  const witness = newest(sameDomain);
+  const certifying = sameDomain.filter(
+    (item) => item?.verificationClass === "authoritative" && item?.scope === scope
+  );
+
+  if (certifying.length === 0) {
+    return makeOutcome(base, {
+      result: "unverified_witness",
+      truthState: TRUTH_STATES.BLOCKED,
+      reason: "No authoritative in-scope witness can certify this claim.",
+      evidence: newest(sameDomain),
+    });
+  }
+
+  const witness = newest(certifying);
   const witnessTime = timestamp(witness.asOf ?? witness.observedAt ?? witness.retrievedAt);
   const now = timestamp(observedAt);
   if (!Number.isFinite(witnessTime) || !Number.isFinite(now) || witnessTime > now || now - witnessTime > maxAgeMs) {
     return makeOutcome(base, {
       result: "stale_evidence",
       truthState: TRUTH_STATES.BLOCKED,
-      reason: "The newest witness is stale or has an invalid observation time.",
+      reason: "The newest certifying witness is stale or has an invalid observation time.",
       evidence: witness,
     });
   }
 
-  if (witness.verificationClass !== "authoritative" || witness.scope !== scope) {
+  const tiedWitnesses = certifying.filter((item) => {
+    const itemTime = timestamp(item.asOf ?? item.observedAt ?? item.retrievedAt);
+    return itemTime === witnessTime;
+  });
+  const tiedVersions = [...new Set(tiedWitnesses.map((item) => item?.observedVersion ?? ""))];
+  if (tiedVersions.length > 1) {
     return makeOutcome(base, {
-      result: "unverified_witness",
+      result: "conflicting_evidence",
       truthState: TRUTH_STATES.BLOCKED,
-      reason: "The witness class or scope cannot certify this claim.",
+      reason: "Equally current authoritative in-scope witnesses disagree.",
       evidence: witness,
+      evidenceRefs: tiedWitnesses.map((item) => item?.reference).filter(Boolean),
+      observedVersion: "",
     });
   }
 
@@ -109,8 +129,9 @@ export function reconcileClaim(claim, allEvidence, options = {}) {
 }
 
 function makeOutcome(base, finding) {
-  const evidenceRefs = finding.evidence?.reference ? [finding.evidence.reference] : [];
-  const observedVersion = finding.evidence?.observedVersion ?? "";
+  const evidenceRefs = finding.evidenceRefs
+    ?? (finding.evidence?.reference ? [finding.evidence.reference] : []);
+  const observedVersion = finding.observedVersion ?? finding.evidence?.observedVersion ?? "";
   const evidenceFingerprint = fingerprint({
     reconciliationKey: base.reconciliationKey,
     expectedVersion: base.expectedVersion,
