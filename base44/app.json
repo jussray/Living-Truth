@@ -1,0 +1,10 @@
+{
+  "product": "Living Truth",
+  "appId": "6a94a7bfcbb4366d37894ffd",
+  "role": "canonical evidence and reconciliation engine",
+  "repository": "jussray/Living-Truth",
+  "authority": "non-authorizing evidence system",
+  "siblingProducts": {
+    "Entitled": "jussray/Entitled"
+  }
+}

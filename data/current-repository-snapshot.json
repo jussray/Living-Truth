@@ -1,0 +1,17 @@
+{
+  "observedAt": "2026-10-06T00:31:52Z",
+  "evidenceClass": "authoritative branch-head readback",
+  "scope": "repository",
+  "note": "Source identity only. These observations do not prove deployment or runtime equivalence.",
+  "repositories": {
+    "jussray/founder-control-room": "6c147620628eb49b2467490ae0a20d396851f2ca",
+    "jussray/chief-ai-machine": "59b6f590877a7fa6e7fbdb9d48eda330f9071762",
+    "jussray/promptos": "b80a1354aaeef6bc045e2ecb15988697099b2548",
+    "jussray/solcontinuity": "25c2660fdce79bc0fc1385a8aac305fa80c09f44",
+    "jussray/Sekret-Bip": "3ac7de01e2db8ff2d571208cab5fc305ac4b2613",
+    "jussray/StoryEngine": "91af998c2c7adad0792dd394735ca738b92ab26d",
+    "jussray/truth-weaver": "706c072a4fc393fde38f3d286fc269ddd5b391d7",
+    "jussray/truth-compass": "e4ebe8e959cccaccbb4ca2179098a2be27496789",
+    "jussray/exact-match-engine": "e86a06897c1da541fd7cd01a6aff466e151421c1"
+  }
+}
