@@ -2,7 +2,7 @@
   "contract": "juss/council-model-capability-profile@v1",
   "repository": "jussray/Living-Truth",
   "defaultBranch": "main",
-  "preparedAgainstBaseSha": "6879df01335f6baf2783678cc1cead2c963e144f",
+  "preparedAgainstBaseSha": "594c71a5daa5a4e1e4e9767b3f14a4e837283512",
   "authorityHost": "jussray/founder-control-room",
   "providerExecutionHost": "jussray/founder-control-room",
   "projectRole": "evidence_reconciliation_engine",
@@ -26,6 +26,12 @@
       "model": "@cf/cloudflare/clef-omni",
       "role": "multimodal_evidence_adjudication",
       "notes": "Typed multimodal decisions/probabilities; never self-authorizing.",
+      "status": "trial"
+    },
+    {
+      "model": "anthropic/claude",
+      "role": "reconciliation_contract_and_code_review",
+      "notes": "Reviews truth-contract and reconciliation code and fixtures; cannot assign witness class or verify project/runtime truth. Exact Claude model is chosen per invocation by the provider execution host; no version is pinned here.",
       "status": "trial"
     }
   ],
